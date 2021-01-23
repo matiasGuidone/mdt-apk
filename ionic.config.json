@@ -1,0 +1,7 @@
+{
+  "name": "mdt-apk",
+  "integrations": {
+    "cordova": {}
+  },
+  "type": "angular"
+}
