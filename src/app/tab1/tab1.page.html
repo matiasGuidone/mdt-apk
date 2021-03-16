@@ -1,17 +1,25 @@
 <ion-header [translucent]="true">
   <ion-toolbar>
-    <ion-title>
-      Tab 1
+    <ion-title> 
+      Escaneo Código
     </ion-title>
   </ion-toolbar>
 </ion-header>
 
-<ion-content [fullscreen]="true">
+<!-- <ion-content > -->
   <ion-header collapse="condense">
     <ion-toolbar>
-      <ion-title size="large">Tab 1</ion-title>
+      <ion-title size="large">Escaneo Código</ion-title>
     </ion-toolbar>
   </ion-header>
+ 
+  <div id="container">
+    <!-- <strong>Marcador de la mutual</strong> -->
+    <ion-button (click)="escanear()" [style]="btnmark" expand="full" color="secondary">Marcar</ion-button>
+     <ion-button (click)="testmarcado()"   expand="full" color="secondary">Test</ion-button>
+     <ion-button (click)="closeScanner()" [style]="disbtn" expand="full" color="secondary">Cancelar</ion-button>
+ 
+  </div>
 
-  <app-explore-container name="Tab 1 page"></app-explore-container>
-</ion-content>
+<!-- </ion-content> -->
+

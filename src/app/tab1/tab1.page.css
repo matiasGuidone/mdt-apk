@@ -1,0 +1,19 @@
+.toolbar-title-default{
+    background-color: burlywood;
+  }
+
+
+body{
+    background-color: burlywood;
+}
+
+.alert-ingreso{
+  --background: #eb445a;
+}
+
+.alert-egreso{
+  --background: #3171e0;
+}
+.my-custom-class {
+  --background: rgba(34, 34, 34, 0);
+}

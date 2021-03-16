@@ -6,6 +6,8 @@ import { FormsModule } from '@angular/forms';
 import { TabsPageRoutingModule } from './tabs-routing.module';
 
 import { TabsPage } from './tabs.page';
+import { QRScanner } from '@ionic-native/qr-scanner/ngx';
+
 
 @NgModule({
   imports: [
@@ -14,6 +16,7 @@ import { TabsPage } from './tabs.page';
     FormsModule,
     TabsPageRoutingModule
   ],
-  declarations: [TabsPage]
+  declarations: [TabsPage],
+  providers: [QRScanner]
 })
-export class TabsPageModule {}
+export class TabsPageModule { }
