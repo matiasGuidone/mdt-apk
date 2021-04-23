@@ -13,6 +13,8 @@ import { ComunicacionService } from './servicios/comunicacion.service';
 import { HttpClientModule } from '@angular/common/http';
 import { IonicStorageModule } from '@ionic/storage';
 import { DatePipe } from '@angular/common';
+import { AudioService } from './servicios/audio.service'; 
+import { NativeAudio } from '@ionic-native/native-audio/ngx';
 
 @NgModule({
   declarations: [AppComponent],
@@ -22,7 +24,8 @@ import { DatePipe } from '@angular/common';
       name: '__mydb',
       driverOrder: ['indexeddb', 'sqlite', 'websql']
     })],
-  providers: [
+  providers: [ 
+    NativeAudio,
     StatusBar,
     SplashScreen,
     ComunicacionService,

@@ -8,7 +8,7 @@ import { ComunicacionService } from '../servicios/comunicacion.service';
   templateUrl: 'tabs.page.html',
   styleUrls: ['tabs.page.scss']
 })
-export class TabsPage {
+export class TabsPage  {
 
   constructor(private platform: Platform, private servicio: ComunicacionService) {
     

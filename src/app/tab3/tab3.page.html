@@ -17,14 +17,14 @@
 
   <ion-item>
     <ion-label position="stacked">Url servidor</ion-label>
-    <ion-input [(ngModel)]="url" ></ion-input>
+    <ion-input disabled [(ngModel)]="url" ></ion-input>
   </ion-item>
-  <ion-button expand="full" (click)="guardarurl()" color="secondary">Guardar</ion-button>
+  <ion-button expand="full" (click)="ModalUrl()" color="secondary">Modificar url</ion-button>
   <ion-item>
     <ion-label position="stacked">Código de marcado</ion-label>
-    <ion-input [(ngModel)]="codigo" ></ion-input>
+    <ion-input disabled [(ngModel)]="codigo" ></ion-input>
   </ion-item>
-  <ion-button expand="full" (click)="cargarcodigo()" color="secondary">Cargar código</ion-button>
+  <ion-button expand="full" (click)="ModalCodigo()" color="secondary">Modificar código marcador</ion-button>
   <ion-item>
   <ion-label> <strong>Nombre y apellido :</strong> {{nombreape}}</ion-label>
 </ion-item>
