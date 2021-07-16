@@ -13,6 +13,7 @@ export class ComunicacionService {
   env = new Array(); 
   sinsubir : number = 0;
   public movsenvio = new Array();
+  
 
   constructor(public _http: HttpClient, private storage: Storage, private datePipe: DatePipe) { 
     this.storage.get('url').then((url) => { this.url = url }); 
@@ -67,6 +68,15 @@ export class ComunicacionService {
      
         const header = new HttpHeaders({ 'codigomdt': codigo, 'Access-Control-Allow-Origin': '*' });
         return this._http.get<any>(this.url+"personal", { headers: header });
+      
+    } catch (e) { return null; }
+  }
+
+  test(url): Observable<any> {
+    try {
+     
+        const header = new HttpHeaders({  'Access-Control-Allow-Origin': '*' });
+        return this._http.get<any>(url+"test", { headers: header });
       
     } catch (e) { return null; }
   }

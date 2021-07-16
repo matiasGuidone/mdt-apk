@@ -11,46 +11,27 @@ import { ComunicacionService } from '../servicios/comunicacion.service';
 export class Tab3Page {
   //panel de configuración
   nombreape; nrosocio; entsalmat; entsalves; entsalsab; codigo; url;
+  urlint = "http://123.124.10.9/mdtMarcado/";
+  urlext = "http://181.28.132.31/mdtMarcado/";
 
-  ionViewWillEnter() {
-    this.storage.get('url').then((url) => {
-      this.url = url;
-      if(this.url == null){
-        this.url = 'http://192.168.0.125/mdtReloj/';
-      }
 
-      this.storage.get('codigo').then((codigo) => {
-        if (codigo != null) {
-          this.codigo = codigo; 
-          this.comunicacion.loadcodigo(codigo).subscribe(d => {
-            if (d != null) {
-              this.presentAlert("correctamente establecida", "Conexión", "success", 1000).then((data) => {
-                this.nombreape = d.data[0][0].nombre + ", " + d.data[0][0].apellido;
-                this.nrosocio = d.data[0][0].nrosocio;
-                this.entsalmat = d.data[0][0].horaentradamat + " hasta " + d.data[0][0].horasalidamat;
-                this.entsalves = d.data[0][0].horaentradaves + " hasta " + d.data[0][0].horasalidaves;
-                this.entsalsab = d.data[0][0].horaentradasab + " hasta " + d.data[0][0].horasalidasab;
-              });
-            }
-            else {
-              this.presentAlert("El código ingresado no obtuvo resultados", "Fallo conexión").then((data) => {
-                this.storage.get('personal').then((pers) => {
-                  if (pers != null) {
-                    let personal = JSON.parse(pers);
-                    this.nombreape = personal.nombre + ", " + personal.apellido;
-                    this.nrosocio = personal.nrosocio;
-                    this.entsalmat = personal.horaentradamat + " hasta " + personal.horasalidamat;
-                    this.entsalves = personal.horaentradaves + " hasta " + personal.horasalidaves;
-                    this.entsalsab = personal.horaentradasab + " hasta " + personal.horasalidasab;
-                    this.codigo = personal.codigomarcado;
-                  }
+  private init_codigo(){
+    this.storage.get('codigo').then((codigo) => {
+      if (codigo != null) {
+        this.codigo = codigo; 
+        this.comunicacion.loadcodigo(codigo).subscribe(d => {
+          if (d != null) {
+            this.presentAlert("correctamente establecida", "Conexión", "success", 1000).then((data) => {
+              this.nombreape = d.data[0][0].nombre + ", " + d.data[0][0].apellido;
+              this.nrosocio = d.data[0][0].nrosocio;
+              this.entsalmat = d.data[0][0].horaentradamat + " hasta " + d.data[0][0].horasalidamat;
+              this.entsalves = d.data[0][0].horaentradaves + " hasta " + d.data[0][0].horasalidaves;
+              this.entsalsab = d.data[0][0].horaentradasab + " hasta " + d.data[0][0].horasalidasab;
+            });
+          }
+          else {
+            this.presentAlert("El código ingresado no obtuvo resultados", "Fallo conexión").then((data) => {
 
-                });
-              });
-
-            }
-          }, error => {
-            this.presentAlert("No se pudo establecer conexión con el servidor", "Fallo conexión").then((data) => {
               this.storage.get('personal').then((pers) => {
                 if (pers != null) {
                   let personal = JSON.parse(pers);
@@ -61,14 +42,59 @@ export class Tab3Page {
                   this.entsalsab = personal.horaentradasab + " hasta " + personal.horasalidasab;
                   this.codigo = personal.codigomarcado;
                 }
+
               });
             });
 
-
+          }
+        }, error => {
+          this.presentAlert("No se pudo establecer conexión con el servidor", "Fallo conexión").then((data) => {
+            this.storage.get('personal').then((pers) => {
+              if (pers != null) {
+                let personal = JSON.parse(pers);
+                this.nombreape = personal.nombre + ", " + personal.apellido;
+                this.nrosocio = personal.nrosocio;
+                this.entsalmat = personal.horaentradamat + " hasta " + personal.horasalidamat;
+                this.entsalves = personal.horaentradaves + " hasta " + personal.horasalidaves;
+                this.entsalsab = personal.horaentradasab + " hasta " + personal.horasalidasab;
+                this.codigo = personal.codigomarcado;
+              }
+            });
           });
 
-        }
-      });
+
+        });
+
+      }
+    });}
+  ionViewWillEnter() {
+    this.storage.get('url').then((url) => {
+      this.url = url;
+      if(this.url == null || this.url == ""){
+        this.comunicacion.test(this.urlint).subscribe(d =>{ 
+          if (d.result == "OK"){
+            this.url = this.urlint;
+            this.init_codigo();
+          }
+          else{
+            this.comunicacion.test(this.urlext).subscribe(d =>{ 
+              if (d.result == "OK"){
+                this.url = this.urlext;
+                this.init_codigo();
+              }
+          });}
+        },
+        error => {
+          this.comunicacion.test(this.urlext).subscribe(d =>{ 
+            if (d.result == "OK"){
+              this.url = this.urlext;
+              this.init_codigo();
+            }
+        });
+        });
+
+      }
+
     });
   }
 
