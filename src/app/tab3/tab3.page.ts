@@ -48,7 +48,7 @@ export class Tab3Page {
 
           }
         }, error => {
-          this.presentAlert("No se pudo establecer conexión con el servidor", "Fallo conexión").then((data) => {
+          this.presentAlert("No se pudo establecer conexión con el servidor : "+error, "Fallo conexión").then((data) => {
             this.storage.get('personal').then((pers) => {
               if (pers != null) {
                 let personal = JSON.parse(pers);
@@ -69,26 +69,34 @@ export class Tab3Page {
     });}
   ionViewWillEnter() {
     this.storage.get('url').then((url) => {
-      this.url = url;
-      if(this.url == null || this.url == ""){
+       
+      this.url = url; 
+      if(this.url == null || this.url == undefined || this.url == "" || this.url == this.urlint || this.url == this.urlext){
         this.comunicacion.test(this.urlint).subscribe(d =>{ 
           if (d.result == "OK"){
+            this.presentAlert("Url de conexión: "+this.urlint, "Conexión establecida","success", 1000).then((data) => {
             this.url = this.urlint;
-            this.init_codigo();
+            this.storage.set('url', this.urlint).then(d => this.init_codigo());});
+            //
           }
           else{
             this.comunicacion.test(this.urlext).subscribe(d =>{ 
               if (d.result == "OK"){
+                this.presentAlert("Url de conexión: "+this.urlext, "Conexión establecida","success", 1000).then((data) => {
                 this.url = this.urlext;
-                this.init_codigo();
+                this.storage.set('url', this.urlext).then(d => this.init_codigo());});
               }
           });}
         },
         error => {
           this.comunicacion.test(this.urlext).subscribe(d =>{ 
             if (d.result == "OK"){
+              this.presentAlert("Url de conexión: "+this.urlext, "Conexión establecida","success", 1000).then((data) => {
               this.url = this.urlext;
-              this.init_codigo();
+              this.storage.set('url', this.urlext).then(d => this.init_codigo());});
+            }
+            else{
+              this.presentAlert("Error: "+error, "Conexión no establecida").then((data) => {});
             }
         });
         });
@@ -121,7 +129,10 @@ export class Tab3Page {
   }
 
   constructor(public alertController: AlertController, public toastController: ToastController, private storage: Storage, private comunicacion: ComunicacionService) {
-
+    this.storage.get('url').then((url) => {
+      if(this.url == null ){
+        this.storage.set('url', this.urlint).then(d => console.log("Inicializando"));
+      }});
   }
 
 
@@ -181,7 +192,8 @@ export class Tab3Page {
         {
           name: 'ul',
           placeholder: 'Url nueva',
-          type: 'text'
+          type: 'text',
+          value: this.url
         }
       ],
       buttons: [
@@ -213,7 +225,8 @@ export class Tab3Page {
         {
           name: 'codigo',
           placeholder: 'Cambio de código',
-          type: 'text'
+          type: 'text',
+          value: this.codigo
         }
       ],
       buttons: [
