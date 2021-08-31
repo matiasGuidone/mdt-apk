@@ -8,6 +8,7 @@ import { ComunicacionService } from '../servicios/comunicacion.service';
 import { AudioService } from '../servicios/audio.service'; 
 
 
+
 @Component({
   selector: 'app-tab1',
   templateUrl: 'tab1.page.html',
@@ -24,17 +25,28 @@ export class Tab1Page implements AfterViewInit {
   public btnmark: string = "display:block";
   nombreape: string;
   moviactual: any;
-  seleccionar = false;
+  seleccionar = false; 
 
   constructor( private audio: AudioService, private routerOutlet: IonRouterOutlet, private servicio: ComunicacionService, private storage: Storage, private qrScanCtrl: QRScanner, private platform: Platform, public alertController: AlertController, private modalController: ModalController, public toastController: ToastController, private datePipe: DatePipe) {
-    this.platform = platform;
-    this.platform.backButton.subscribeWithPriority(10, () => {
-      this.closeScanner();
+     this.platform.backButton.subscribeWithPriority(10, () => {
+       //this.cerrarApp();
+        if(this.isOn){
+          this.closeScanner();
+        }
+        else{
+          this.cerrarApp().then((data) => {console.log(data)});
+        }
+       
+       
+       
+    });
 
-    });
-    this.platform.backButton.subscribeWithPriority(8, () => {
-      return navigator['app'].exitApp();
-    });
+    // this.platform.backButton.subscribeWithPriority(-1, () => {
+    //   if (!this.routerOutlet.canGoBack()) {
+    //     this.cerrarApp().then((data) => {console.log(data)});
+    //   }
+    // });
+     
     this.storage.get('movimientos').then((movs) => { 
       if (movs != null) {
         movs = JSON.parse(movs);
@@ -46,6 +58,30 @@ export class Tab1Page implements AfterViewInit {
         } 
       }
     });
+  }
+
+  async cerrarApp() {
+    const alert = await this.alertController.create({
+      cssClass: 'my-custom-class',
+      header: 'Cerrar',
+      message: 'Salir de la aplicación',
+      buttons: [
+        {
+          text: 'Cancelar',
+          role: 'cancel',
+          cssClass: 'secondary',
+          handler: (blah) => {
+            console.log('Confirm Cancel: blah');
+          }
+        }, {
+          text: 'Aceptar',
+          handler: () => {
+            navigator['app'].exitApp();
+          }
+        }
+      ]
+    });
+    await alert.present();
   }
 
   ngAfterViewInit(){
@@ -72,15 +108,19 @@ export class Tab1Page implements AfterViewInit {
           console.log('qrscaner authorized');
           // camera permission was granted
           // start scanning
+          this.isOn = true;
           const scanSub = this.qrScanCtrl.scan().subscribe((text: Object) => {
             // alert(text);
             //this.location.back(); // go to previous page
             let code = this.generacode();
+            this.qrScanCtrl.hide();
+            scanSub.unsubscribe();
             if (text == code) {
               this.audio.play('marcar');
               //comprobar horario del usuario
               //comprobar horario del usuario para saber si es ingreso o egreso
               //
+
               this.storage.get('personal').then((pers) => {
                 if (pers != null) {
                   let personal = JSON.parse(pers);
