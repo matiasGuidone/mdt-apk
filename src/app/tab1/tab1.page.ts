@@ -146,19 +146,7 @@ export class Tab1Page implements AfterViewInit {
                       else { tipo = "I"; }
                     }
                     else {
-                      if ((+(personal.horaentradamat.split(":")[0]) - 1) <= horam && (+(personal.horaentradamat.split(":")[0]) + 1) >= horam) {
-                        tipo = "I";
-                      }
-                      if ((+(personal.horasalidamat.split(":")[0]) - 1) <= horam && (+(personal.horasalidamat.split(":")[0]) + 1) >= horam) {
-                        tipo = "E";
-                      }
-                      if ((+(personal.horaentradaves.split(":")[0]) - 1) <= horam && (+(personal.horaentradaves.split(":")[0]) + 1) >= horam) {
-                        tipo = "I";
-                      }
-                      if ((+(personal.horasalidaves.split(":")[0]) - 1) <= horam && (+(personal.horasalidaves.split(":")[0]) + 1) >= horam) {
-                        tipo = "E";
-                      }
-                      else { tipo = "I"; }
+                      tipo = this.marcar(personal,horam);
                     }
                   }
                   //movs.push({"fechahora" : dia, "tipo": tipo, "id" : personal.id, "estado" : 1});
@@ -371,19 +359,7 @@ export class Tab1Page implements AfterViewInit {
           this.moviactual = { "fechahora": dia, "id": personal.id, "estado": 1 }; return;
         }
         else {
-          if ((+(personal.horaentradamat.split(":")[0]) - 1) <= horam && (+(personal.horaentradamat.split(":")[0]) + 1) >= horam) {
-            tipo = "I";
-          }
-          if ((+(personal.horasalidamat.split(":")[0]) - 1) <= horam && (+(personal.horasalidamat.split(":")[0]) + 1) >= horam) {
-            tipo = "E";
-          }
-          if ((+(personal.horaentradaves.split(":")[0]) - 1) <= horam && (+(personal.horaentradaves.split(":")[0]) + 1) >= horam) {
-            tipo = "I";
-          }
-          if ((+(personal.horasalidaves.split(":")[0]) - 1) <= horam && (+(personal.horasalidaves.split(":")[0]) + 1) >= horam) {
-            tipo = "E";
-          }
-          else { tipo = "I"; }
+          tipo = this.marcar(personal,horam);
         }
         //movs.push({"fechahora" : dia, "tipo": tipo, "id" : personal.id, "estado" : 1});
         this.moviactual = { "fechahora": dia, "tipo": tipo, "id": personal.id, "estado": 1 };
@@ -398,4 +374,22 @@ export class Tab1Page implements AfterViewInit {
       }
     });
   }
+
+  marcar(personal, horam) {
+    let tipo = "I"
+    if ((+(personal.horaentradamat.split(":")[0]) - 1) <= horam && (+(personal.horaentradamat.split(":")[0]) + 1) >= horam) {
+      tipo = "I";
+    }
+    if ((+(personal.horasalidamat.split(":")[0]) - 1) <= horam && (+(personal.horasalidamat.split(":")[0]) + 1) >= horam) {
+      tipo = "E";
+    }
+    if ((+(personal.horaentradaves.split(":")[0]) - 1) <= horam && (+(personal.horaentradaves.split(":")[0]) + 1) >= horam) {
+      tipo = "I";
+    }
+    if ((+(personal.horasalidaves.split(":")[0]) - 1) <= horam && (+(personal.horasalidaves.split(":")[0]) + 1) >= horam) {
+      tipo = "E";
+    } 
+    return tipo;
+  }
+
 }
