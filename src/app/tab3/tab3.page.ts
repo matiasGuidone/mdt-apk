@@ -2,6 +2,7 @@ import { Component } from '@angular/core';
 import { AlertController, ToastController } from '@ionic/angular';
 import { Storage } from '@ionic/storage';
 import { ComunicacionService } from '../servicios/comunicacion.service';
+import { AppVersion } from '@awesome-cordova-plugins/app-version/ngx';
 
 @Component({
   selector: 'app-tab3',
@@ -13,6 +14,9 @@ export class Tab3Page {
   nombreape; nrosocio; entsalmat; entsalves; entsalsab; codigo; url;
   urlint = "http://123.124.10.9/mdtMarcado/";
   urlext = "http://181.28.132.31/mdtMarcado/";
+  availableUpdate: boolean = false;
+  version;
+  
 
 
   private init_codigo(){
@@ -128,11 +132,29 @@ export class Tab3Page {
     toast.present();
   }
 
-  constructor(public alertController: AlertController, public toastController: ToastController, private storage: Storage, private comunicacion: ComunicacionService) {
+  constructor(public alertController: AlertController, private appVersion: AppVersion, public toastController: ToastController, private storage: Storage, private comunicacion: ComunicacionService) {
+    try {
+     this.appVersion.getVersionNumber().then(dat => this.version = dat);
+    } catch (error) {
+      
+    }
+
+   
     this.storage.get('url').then((url) => {
       if(this.url == null ){
         this.storage.set('url', this.urlint).then(d => console.log("Inicializando"));
-      }});
+      }
+      // this.comunicacion.getUpdate().subscribe(dd => {
+      //    this.storage.get('lastupdate').then(dat =>{
+      //       if(dat){
+      //         if (dd['data'] > +dat ){
+      //           this.availableUpdate = true;
+      //         }
+      //       }
+      //   });}
+       
+      // );
+    });
   }
 
 

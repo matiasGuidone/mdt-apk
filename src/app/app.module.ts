@@ -15,6 +15,7 @@ import { IonicStorageModule } from '@ionic/storage';
 import { DatePipe } from '@angular/common';
 import { AudioService } from './servicios/audio.service'; 
 import { NativeAudio } from '@ionic-native/native-audio/ngx';
+import { AppVersion } from '@awesome-cordova-plugins/app-version/ngx';
 
 @NgModule({
   declarations: [AppComponent],
@@ -25,6 +26,7 @@ import { NativeAudio } from '@ionic-native/native-audio/ngx';
       driverOrder: ['indexeddb', 'sqlite', 'websql']
     })],
   providers: [ 
+    AppVersion,
     NativeAudio,
     StatusBar,
     SplashScreen,

@@ -40,5 +40,12 @@
 <ion-item>
   <ion-label> <strong>Entrada y salida sábado :</strong> {{entsalsab}}</ion-label>
 </ion-item>
+ 
+<ion-item>
+  <ion-label position="stacked">Versión instalada</ion-label>
+  <ion-input disabled [(ngModel)]="version" ></ion-input>
+</ion-item>
+<ion-button [disabled]="availableUpdate" expand="full" (click)="downloadupdate()" color="secondary">Descargar actualización</ion-button>
+
 </ion-content>
 

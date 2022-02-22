@@ -97,7 +97,7 @@ export class Tab1Page implements AfterViewInit {
     this.qrScanCtrl.hide();
     this.qrScanCtrl.destroy();
     this.disbtn = 'display : none';
-    this.btnmark = 'display : block;';
+    this.btnmark = 'display : block;'; 
   }
 
   escanear() {
@@ -130,9 +130,19 @@ export class Tab1Page implements AfterViewInit {
                   let dia = new Date();
                   let horam: number = +this.datePipe.transform(dia, "HH");
                   console.log(personal);
+                  let banIE = true;
                   if (personal.horaentradamat == "" && personal.horasalidamat == "" && personal.horaentradaves == "" && personal.horasalidaves == "") {
                     this.seleccionar = true;
-                    this.moviactual = { "fechahora": dia, "id": personal.id, "estado": 1 }; this.closeScanner(); return;
+                    this.moviactual = { "fechahora": dia, "id": personal.id, "estado": 1 }; 
+                     
+                      this.isOn = false;
+                      
+                      this.disbtn = 'display : none';
+                      this.btnmark = 'display : block;';
+                      banIE = false; 
+                      this.ModalIngresoEgreso();
+                    // this.closeScanner(); 
+                    
                   }
                   else {
                     if (dia.getDay() == 6) {
@@ -150,13 +160,13 @@ export class Tab1Page implements AfterViewInit {
                     }
                   }
                   //movs.push({"fechahora" : dia, "tipo": tipo, "id" : personal.id, "estado" : 1});
-
+                  if(banIE){
                   //this.storage.set('movimientos', JSON.stringify(movs)).then(d => this.servicio.envioMovimientos());
                   this.moviactual = { "fechahora": dia, "tipo": tipo, "id": personal.id, "estado": 1 };
                   
                   this.ModalMarcado(tipo, this.datePipe.transform(dia, "HH:mm:ss dd/MM/yyyy")).then((data) => {
                     this.closeScanner();
-                  });
+                  });}
                 }
               });
            
@@ -235,6 +245,34 @@ export class Tab1Page implements AfterViewInit {
 
     await alert.present();
   }
+
+  async ModalIngresoEgreso() {
+ 
+    const alert = await this.alertController.create({
+      header: this.nombreape,
+      message: "Seleccione EGRESO o INGRESO",
+      cssClass:'buttonCss',
+      buttons: [
+        {
+          text: 'INGRESO',
+          
+          handler: () => {
+             this.registramov('I');
+          }
+        },
+        {
+          text: 'EGRESO', 
+          handler: () => {
+            this.registramov('E');
+          }
+        }
+      ]
+    });
+
+    alert.present();
+
+  }
+
 
   async ModalMarcado(t, h) {
 

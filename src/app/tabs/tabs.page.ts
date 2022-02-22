@@ -10,7 +10,7 @@ import { ComunicacionService } from '../servicios/comunicacion.service';
 })
 export class TabsPage  {
 
-  constructor(private platform: Platform, private servicio: ComunicacionService) {
+  constructor(private platform: Platform, public servicio: ComunicacionService) {
     
 
   }

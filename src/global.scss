@@ -24,3 +24,16 @@
 @import "~@ionic/angular/css/text-alignment.css";
 @import "~@ionic/angular/css/text-transformation.css";
 @import "~@ionic/angular/css/flex-utils.css";
+
+.buttonCss {
+
+    button.alert-button:nth-child(2){
+      background-color: rgb(65, 128, 223);
+      color: white;
+    }
+
+    button.alert-button:nth-child(1){
+      background-color: rgb(84, 194, 84);
+      color: white;
+    }
+}

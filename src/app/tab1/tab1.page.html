@@ -14,23 +14,21 @@
   </ion-header>
  
   <div id="container">
-    <ion-fab *ngIf="seleccionar" style="z-index:3000" horizontal="start" vertical="center" slot="fixed">
+    <!-- <ion-fab *ngIf="seleccionar" style="z-index:4000" horizontal="start" vertical="center" slot="fixed">
       <ion-fab-button (click)="registramov('I')" color="success">
-        <h2>I</h2>
-        <!-- <ion-icon name="add"></ion-icon> -->
+        <h2>I</h2> 
       </ion-fab-button>
-    </ion-fab>
+    </ion-fab> -->
 
-    <ion-fab *ngIf="seleccionar"  style="z-index:3000" horizontal="end" vertical="center" slot="fixed">
+    <!-- <ion-fab *ngIf="seleccionar"  style="z-index:4000" horizontal="end" vertical="center" slot="fixed">
       <ion-fab-button (click)="registramov('E')" color="primary">
-        <h2>E</h2>
-        <!-- <ion-icon name="add"></ion-icon> -->
+        <h2>E</h2> 
       </ion-fab-button>
-    </ion-fab>
+    </ion-fab> -->
 
     <!-- <strong>Marcador de la mutual</strong> -->
     <ion-button (click)="escanear()" [style]="btnmark" expand="full" color="secondary">Marcar</ion-button>
-      <!-- <ion-button (click)="testmarcado()"   expand="full" color="secondary">Test</ion-button>   -->
+       <!-- <ion-button (click)="testmarcado()"   expand="full" color="secondary">Test</ion-button>     -->
      <ion-button (click)="closeScanner()" [style]="disbtn" expand="full" color="secondary">Cancelar</ion-button>
      
   </div>

@@ -6,6 +6,15 @@
   </ion-toolbar>
 </ion-header>
 
+<ion-fab horizontal="end" vertical="top"   edge>
+  <ion-fab-button (click)="eliminar('todos')" color="danger" style="margin-top: 50px;">
+    <ion-icon name="trash"></ion-icon>
+  </ion-fab-button> 
+  <ion-fab-button (click)="enviarMovs()" color="success" style="margin-top: 50px;">
+    <ion-icon name="sync"></ion-icon>
+  </ion-fab-button>
+</ion-fab>
+
 <ion-content [fullscreen]="true">
   <ion-header collapse="condense">
     <ion-toolbar>

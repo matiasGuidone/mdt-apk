@@ -8,6 +8,7 @@ import { DatePipe } from '@angular/common';
   providedIn: 'root'
 })
 export class ComunicacionService {
+ 
   public url;
   movimientos = new Array();
   env = new Array(); 
@@ -79,6 +80,11 @@ export class ComunicacionService {
         return this._http.get<any>(url+"test", { headers: header });
       
     } catch (e) { return null; }
+  }
+
+  getUpdate() {
+    const header = new HttpHeaders({  'Access-Control-Allow-Origin': '*' });
+    return this._http.get(this.url+"getupdate", { headers: header });
   }
   
 }

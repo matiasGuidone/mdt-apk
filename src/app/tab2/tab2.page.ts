@@ -1,6 +1,7 @@
 import { Component } from '@angular/core';
 import { AlertController } from '@ionic/angular';
 import { Storage } from '@ionic/storage';
+import { ComunicacionService } from '../servicios/comunicacion.service';
 
 @Component({
   selector: 'app-tab2',
@@ -10,6 +11,7 @@ import { Storage } from '@ionic/storage';
 export class Tab2Page  {
   public movimientos : Array<any> = new Array(); 
   personal: any;
+
   ionViewWillEnter() {
     this.storage.get("personal").then((pers) => {
       if(pers != null){
@@ -26,7 +28,7 @@ export class Tab2Page  {
     }
     });
   }
-  constructor(public alertController: AlertController, private storage : Storage) {
+  constructor(public alertController: AlertController, private servicio: ComunicacionService, private storage : Storage) {
     
     
   }
@@ -45,12 +47,30 @@ export class Tab2Page  {
     }
     else return "";
   }
+  enviarMovs(){
+    this.servicio.envioMovimientos();
+  }
 
   eliminar(i){
+    if(i == "todos"){
+      let arraux = new Array();
+      for(let i = 0; i < this.movimientos.length; i++){
+        if(this.movimientos[i].estado != 2){
+          arraux.push(this.movimientos[i]);
+        }
+      }
+      this.movimientos = arraux;
+      this.storage.set("movimientos", JSON.stringify(this.movimientos.reverse())).then(()=>{
+        this.ionViewWillEnter();
+      }); 
+    }
+    else{
     this.movimientos.splice(i, 1);
-    this.storage.set("movimientos", JSON.stringify(this.movimientos.reverse())).then(()=>{
-      this.ionViewWillEnter();
-    }); 
-  }
+        this.storage.set("movimientos", JSON.stringify(this.movimientos.reverse())).then(()=>{
+          this.ionViewWillEnter();
+        }); 
+      } 
+    }
+    
 
 }
